@@ -1,0 +1,208 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Documentation to Technical Assignment",
+        "description": "Swagger to Technical Assignment",
+        "contact": {
+            "email": "gustavo.caldeira1@outlook.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/api"
+        }
+    ],
+    "paths": {
+        "/storages": {
+            "get": {
+                "tags": [
+                    "Filters"
+                ],
+                "summary": "List all the available storage to filter",
+                "description": "List all the available storage to filter",
+                "operationId": "06cb91d67853259ebb0f05b34f744f05",
+                "responses": {
+                    "200": {
+                        "description": "List all the available storage to filter",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No content found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": []
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error.",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "result": {
+                                        "summary": "Exception message",
+                                        "value": {
+                                            "message": "Example message"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/rams": {
+            "get": {
+                "tags": [
+                    "Filters"
+                ],
+                "summary": "List all the available ram sizes",
+                "description": "List all the available ram sizes",
+                "operationId": "3536e6bc4de1881a17e4cee3a2ba9e73",
+                "responses": {
+                    "200": {
+                        "description": "List all the available ram sizes",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No content found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": []
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error.",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "result": {
+                                        "summary": "Exception message",
+                                        "value": {
+                                            "message": "Example message"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/hard-disks": {
+            "get": {
+                "tags": [
+                    "Filters"
+                ],
+                "summary": "List all the available hard disks to filter",
+                "description": "List all the available hard disks to filter",
+                "operationId": "76c0a2ddacdce10e13ed86ed0a3b05b7",
+                "responses": {
+                    "200": {
+                        "description": "List all the available hard disks to filter",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No content found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": []
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error.",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "result": {
+                                        "summary": "Exception message",
+                                        "value": {
+                                            "message": "Example message"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/locations": {
+            "get": {
+                "tags": [
+                    "Filters"
+                ],
+                "summary": "List all the available location to filter",
+                "description": "List all the available location to filter",
+                "operationId": "6329543750a16058fbed8fe778b8c1ba",
+                "responses": {
+                    "200": {
+                        "description": "List all the available location to filter",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No content found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": []
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error.",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "result": {
+                                        "summary": "Exception message",
+                                        "value": {
+                                            "message": "Example message"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Filters",
+            "description": "Return all the available filters"
+        }
+    ]
+}

@@ -55,21 +55,21 @@ class ComputersImportAdapter implements ComputersImportInterface
     public function initialize() : void
     {
         if (!Cache::get('initialized')) {
-            foreach($this->excelCollection as $row) {
-                $this->model['data'] = $row[$this->model['index']];
-                $this->ram['data'] = $row[$this->ram['index']];
-                $this->hdd['data'] = $row[$this->hdd['index']];
-                $this->location['data'] = $row[$this->location['index']];
-                $this->price['data'] = $row[$this->price['index']];
+            foreach($this->excelCollection[0] as $row) {
+                array_push($this->model['data'], $row[$this->model['index']]);
+                array_push($this->ram['data'], $row[$this->ram['index']]);
+                array_push($this->hdd['data'], $row[$this->hdd['index']]);
+                array_push($this->location['data'], $row[$this->location['index']]);
+                array_push($this->price['data'], $row[$this->price['index']]);
             }
             Cache::set('initialized', true);
         }
     }
 
-    public function getModels() : Collection
+    public function getModels()
     {
         return Cache::rememberForever('model', function () {
-            return collect($this->model['data']);
+            return $this->model['data'];
         });
     }
 
