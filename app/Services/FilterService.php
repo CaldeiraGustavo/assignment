@@ -16,7 +16,7 @@ class FilterService
     
     public function getStorages()
     {
-        return $this->computersImport->getModels();
+        return $this->computersImport->getStorages();
     }
 
     public function getRams()

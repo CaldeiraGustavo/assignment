@@ -5,8 +5,9 @@ namespace App\Imports;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Concerns\WithStartRow;
 
-class ComputersExcelImport implements ToCollection
+class ComputersExcelImport implements ToCollection, WithStartRow
 {
     /**
     * @param Collection $collection
@@ -14,5 +15,10 @@ class ComputersExcelImport implements ToCollection
     public function collection(Collection $collection)
     {
         return $collection;
+    }
+
+    public function startRow(): int
+    {
+        return 2;
     }
 }

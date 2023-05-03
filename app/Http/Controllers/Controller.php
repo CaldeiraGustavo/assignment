@@ -28,6 +28,11 @@ use Maatwebsite\Excel\Facades\Excel;
  * ),
  * 
  * @OA\Tag(
+ *     name="Computers",
+ *     description="Return all information about the computers"
+ * )
+ * 
+ * @OA\Tag(
  *     name="Filters",
  *     description="Return all the available filters"
  * )

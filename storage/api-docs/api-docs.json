@@ -18,6 +18,92 @@
         }
     ],
     "paths": {
+        "/computers": {
+            "get": {
+                "tags": [
+                    "Computers"
+                ],
+                "summary": "List all the computers according to filter",
+                "description": "List all the computers according to filter",
+                "operationId": "6d67aeeb38ac3b26f5b1c8f68df800e1",
+                "parameters": [
+                    {
+                        "name": "ram[]",
+                        "in": "query",
+                        "description": "Filter the RAM's",
+                        "schema": {
+                            "type": "object"
+                        },
+                        "example": [
+                            "4GB",
+                            "64GB"
+                        ]
+                    },
+                    {
+                        "name": "storage",
+                        "in": "query",
+                        "description": "Filter the storage size",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "8TB"
+                    },
+                    {
+                        "name": "harddisk",
+                        "in": "query",
+                        "description": "Filter the harddisk type",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "SSD"
+                    },
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "description": "Filter the Location",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "AmsterdamAMS-01"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List all the computers according to filter",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No content found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": []
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error.",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "result": {
+                                        "summary": "Exception message",
+                                        "value": {
+                                            "message": "Example message"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/storages": {
             "get": {
                 "tags": [
@@ -200,6 +286,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Computers",
+            "description": "Return all information about the computers"
+        },
         {
             "name": "Filters",
             "description": "Return all the available filters"
