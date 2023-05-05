@@ -16,33 +16,34 @@ use Maatwebsite\Excel\Facades\Excel;
  */
 class ComputersImportAdapter implements ComputersImportInterface
 {
-    private $locations = [];    
-    private $excelCollection;
-
+    private $locations = []; 
+    
     public function __construct()
     {
-        $this->excelCollection =
-            Cache::rememberForever('excelCollection', function () {
-                return Excel::toCollection(new ComputersExcelImport, storage_path('/excel/Excel_assignment.xlsx'))[0];
-            });
         $this->initialize();
     }
 
     public function getAllData()
     {
-        return $this->excelCollection;
+        return Cache::get('excelCollection');
     }
 
     public function initialize() : void
     {
-        if (!Cache::get('initialized')) {
-            foreach($this->excelCollection as $row) {
+        if (!Cache::get('initialized')) {           
+            $excel =  Excel::toCollection(new ComputersExcelImport, storage_path('/excel/Excel_assignment.xlsx'))[0];
+            
+            foreach($excel as $row) {
                 
                 preg_match("/(\d+(?:\.\d+)?)\s*(?:TB|GB|MB|KB)/", $row['hdd'], $matches);
                 $row['storage'] = Converter::convertMemorySize("{$matches[0]}");
 
                 array_push($this->locations, $row['location']);
             }
+
+            Cache::rememberForever('excelCollection', function () use ($excel) {
+                return $excel;
+            });
 
             Cache::rememberForever('location', function () {
                 return collect($this->locations)->unique()->values();
