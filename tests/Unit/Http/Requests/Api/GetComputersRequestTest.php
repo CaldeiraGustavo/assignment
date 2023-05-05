@@ -21,7 +21,7 @@ class GetComputersRequestTest extends TestCase
         $this->request = new GetComputersRequest($this->adapter);
     }
     
-    public function testDeveriaConterTodasRegrasEsperadas()
+    public function testShouldContainAllRules()
     {
         $expect = [
             'ram' => ['nullable', 'array'],
@@ -35,7 +35,7 @@ class GetComputersRequestTest extends TestCase
         $this->assertEquals($expect, $this->request->rules());
     }
 
-    public function testDeveriaAceitarDadosValidos()
+    public function testShouldAcceptValidData()
     {
 
         $dadosValidos = [
@@ -49,21 +49,21 @@ class GetComputersRequestTest extends TestCase
         $this->assertTrue(!$validator->fails());
     }
 
-    public function testDeveriaEstarAutorizado()
+    public function testShouldBeAuthorized()
     {
         $this->assertEquals(true, $this->request->authorize());
     }
 
     /**
-     * @dataProvider proverDadosInvalidos
+     * @dataProvider invalidDataProvider
      */
-    public function testDadosInvalidados(array $data)
+    public function testInvalidData(array $data)
     {
         $validador = Validator::make($data, $this->request->rules());
         $this->assertTrue($validador->fails());
     }
 
-    public function proverDadosInvalidos(): array
+    public function invalidDataProvider(): array
     {
         return [
             [[//invalid ram

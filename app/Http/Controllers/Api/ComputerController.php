@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\GetComputersRequest;
+use App\Http\Resources\ComputersResource;
 use App\Services\ComputerService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ComputerController extends Controller
 {
@@ -72,6 +74,12 @@ class ComputerController extends Controller
             'harddisk' => $request->get('harddisk') ?? null,
             'location' => $request->get('location') ?? null,
         ];
-        return $this->service->getComputers($filters);
+        $computers = $this->service->getComputers($filters);
+        
+        if (count($computers) > 0) {
+            return response()->json(ComputersResource::collection($computers), Response::HTTP_OK);
+        } else {
+            return response()->json($computers, Response::HTTP_NOT_FOUND);
+        }
     }
 }

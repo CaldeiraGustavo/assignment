@@ -3,7 +3,6 @@
 namespace App\Adapters\Eloquent;
 
 use App\Adapters\Contracts\ComputersImportInterface;
-use App\Enums\ComputersExcelEnum;
 use App\Imports\ComputersExcelImport;
 use App\Utils\Converter;
 use Exception;
