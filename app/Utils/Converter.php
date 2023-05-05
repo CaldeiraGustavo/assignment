@@ -4,6 +4,9 @@ namespace App\Utils;
 
 class Converter
 {
+    /**
+     * function to parse a memory value as number to comparison 
+     */
     public static function convertMemorySize($strSize)
     {
         $unity = substr($strSize, -2);

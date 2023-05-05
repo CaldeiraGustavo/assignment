@@ -3,24 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\GetComputersRequest;
 use App\Services\ComputerService;
 use Illuminate\Http\Request;
 
 class ComputerController extends Controller
 {
     protected $service;
-    protected $filters;
 
-    public function __construct(Request $request, ComputerService $service)
+    public function __construct(ComputerService $service)
     {
         $this->service = $service;
-        $this->filters = [
-            'ram' => $request->get('ram') ?? null,
-            'max_storage' => $request->get('max_storage') ?? null,
-            'min_storage' => $request->get('min_storage') ?? null,
-            'harddisk' => $request->get('harddisk') ?? null,
-            'location' => $request->get('location') ?? null,
-        ];
     }
     /**
      * @OA\Get(
@@ -70,8 +63,15 @@ class ComputerController extends Controller
      *     @OA\Response(response=500, description="Internal server error.", @OA\JsonContent(@OA\Examples(example="result", value={"message": "Example message"}, summary="Exception message"))),
      * )
      */
-    public function getComputers()
+    public function getComputers(GetComputersRequest $request)
     {
-        return $this->service->getComputers($this->filters);
+        $filters = [
+            'ram' => $request->get('ram') ?? null,
+            'max_storage' => $request->get('max_storage') ?? null,
+            'min_storage' => $request->get('min_storage') ?? null,
+            'harddisk' => $request->get('harddisk') ?? null,
+            'location' => $request->get('location') ?? null,
+        ];
+        return $this->service->getComputers($filters);
     }
 }
