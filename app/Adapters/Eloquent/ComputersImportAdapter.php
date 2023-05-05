@@ -7,7 +7,7 @@ use App\Imports\ComputersExcelImport;
 use App\Utils\Converter;
 use Exception;
 use Illuminate\Support\Collection;
-// use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -22,9 +22,9 @@ class ComputersImportAdapter implements ComputersImportInterface
     public function __construct()
     {
         $this->excelCollection =
-            // Cache::rememberForever('excelCollection', function () {
-                 Excel::toCollection(new ComputersExcelImport, storage_path('/excel/Excel_assignment.xlsx'))[0];
-            // });
+            Cache::rememberForever('excelCollection', function () {
+                return Excel::toCollection(new ComputersExcelImport, storage_path('/excel/Excel_assignment.xlsx'))[0];
+            });
         $this->initialize();
     }
 
@@ -35,7 +35,7 @@ class ComputersImportAdapter implements ComputersImportInterface
 
     public function initialize() : void
     {
-        // if (!Cache::get('initialized')) {
+        if (!Cache::get('initialized')) {
             foreach($this->excelCollection as $row) {
                 
                 preg_match("/(\d+(?:\.\d+)?)\s*(?:TB|GB|MB|KB)/", $row['hdd'], $matches);
@@ -43,13 +43,18 @@ class ComputersImportAdapter implements ComputersImportInterface
 
                 array_push($this->locations, $row['location']);
             }
-            // Cache::set('initialized', true);
-        // }
+
+            Cache::rememberForever('location', function () {
+                return collect($this->locations)->unique()->values();
+            });
+            
+            Cache::set('initialized', true);
+        }
     }
 
     public function getStorages()
     {
-        // return Cache::rememberForever('model', function () {
+        return Cache::rememberForever('model', function () {
             return [
                 '0',
                 '250GB',
@@ -64,12 +69,12 @@ class ComputersImportAdapter implements ComputersImportInterface
                 '48TB',
                 '72TB',
             ];
-        // });
+        });
     }
 
     public function getRams()
     {
-        // return Cache::rememberForever('ram', function () {
+        return Cache::rememberForever('ram', function () {
             return [
                 '2GB',
                 '4GB',
@@ -79,24 +84,22 @@ class ComputersImportAdapter implements ComputersImportInterface
                 '64GB',
                 '96GB',
             ];
-        // });
+        });
     }
 
     public function getHdds()
     {
-        // return Cache::rememberForever('hdd', function () {
+        return Cache::rememberForever('hdd', function () {
             return [
                 'SAS',
                 'SATA',
                 'SSD'
             ];
-        // });
+        });
     }
 
     public function getLocations()
     {
-        // return Cache::rememberForever('location', function () {
-            return collect($this->locations)->unique()->values();
-        // });
+        return Cache::get('location');
     }
 }
