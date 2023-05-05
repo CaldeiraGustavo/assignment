@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ComputerController;
 use App\Http\Controllers\Api\FilterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,3 +24,4 @@ Route::get('/storages', [FilterController::class, 'getStorages']);
 Route::get('/rams', [FilterController::class, 'getRams']);
 Route::get('/hard-disks', [FilterController::class, 'getHardDisks']);
 Route::get('/locations', [FilterController::class, 'getLocations']);
+Route::get('/computers', [ComputerController::class, 'getComputers']);

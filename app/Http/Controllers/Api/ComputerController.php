@@ -3,11 +3,25 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Services\ComputerService;
 use Illuminate\Http\Request;
 
 class ComputerController extends Controller
 {
+    protected $service;
+    protected $filters;
 
+    public function __construct(Request $request, ComputerService $service)
+    {
+        $this->service = $service;
+        $this->filters = [
+            'ram' => $request->get('ram') ?? null,
+            'max_storage' => $request->get('max_storage') ?? null,
+            'min_storage' => $request->get('min_storage') ?? null,
+            'harddisk' => $request->get('harddisk') ?? null,
+            'location' => $request->get('location') ?? null,
+        ];
+    }
     /**
      * @OA\Get(
      *     path="/computers",
@@ -24,9 +38,16 @@ class ComputerController extends Controller
      *        ),
      *     ),
      *     @OA\Parameter(
-     *        description="Filter the storage size",
+     *        description="Filters the minimum value for the storage field",
      *        in="query",
-     *        name="storage",
+     *        name="min_storage",
+     *        example="1TB",
+     *        @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *        description="Filters the maximum value for the storage field",
+     *        in="query",
+     *        name="max_storage",
      *        example="8TB",
      *        @OA\Schema(type="string")
      *     ),
@@ -51,6 +72,6 @@ class ComputerController extends Controller
      */
     public function getComputers()
     {
-        // return $this->filterService->getStorages();
+        return $this->service->getComputers($this->filters);
     }
 }

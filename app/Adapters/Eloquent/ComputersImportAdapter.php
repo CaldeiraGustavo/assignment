@@ -3,7 +3,9 @@
 namespace App\Adapters\Eloquent;
 
 use App\Adapters\Contracts\ComputersImportInterface;
+use App\Enums\ComputersExcelEnum;
 use App\Imports\ComputersExcelImport;
+use App\Utils\Converter;
 use Exception;
 use Illuminate\Support\Collection;
 // use Illuminate\Support\Facades\Cache;
@@ -15,34 +17,14 @@ use Maatwebsite\Excel\Facades\Excel;
  */
 class ComputersImportAdapter implements ComputersImportInterface
 {
-    private $model = [
-        'index' => 0,
-        'data' => []
-    ];
-    private $ram = [
-        'index' => 1,
-        'data' => []
-    ];
-    private $hdd = [
-        'index' => 2,
-        'data' => []
-    ];
-    private $location = [
-        'index' => 3,
-        'data' => []
-    ];
-    private $price = [
-        'index' => 4,
-        'data' => []
-    ];
-    
+    private $locations = [];    
     private $excelCollection;
 
     public function __construct()
     {
         $this->excelCollection =
             // Cache::rememberForever('excelCollection', function () {
-                 Excel::toCollection(new ComputersExcelImport, storage_path('/excel/Excel_assignment.xlsx'));
+                 Excel::toCollection(new ComputersExcelImport, storage_path('/excel/Excel_assignment.xlsx'))[0];
             // });
         $this->initialize();
     }
@@ -55,12 +37,12 @@ class ComputersImportAdapter implements ComputersImportInterface
     public function initialize() : void
     {
         // if (!Cache::get('initialized')) {
-            foreach($this->excelCollection[0] as $row) {
-                // array_push($this->model['data'], $row[$this->model['index']]);
-                // array_push($this->ram['data'], $row[$this->ram['index']]);
-                // array_push($this->hdd['data'], $row[$this->hdd['index']]);
-                array_push($this->location['data'], $row[$this->location['index']]);
-                // array_push($this->price['data'], $row[$this->price['index']]);
+            foreach($this->excelCollection as $row) {
+                
+                preg_match("/(\d+(?:\.\d+)?)\s*(?:TB|GB|MB|KB)/", $row['hdd'], $matches);
+                $row['storage'] = Converter::convertMemorySize("{$matches[0]}");
+
+                array_push($this->locations, $row['location']);
             }
             // Cache::set('initialized', true);
         // }
@@ -69,7 +51,6 @@ class ComputersImportAdapter implements ComputersImportInterface
     public function getStorages()
     {
         // return Cache::rememberForever('model', function () {
-            // return $this->model['data'];
             return [
                 '0',
                 '250GB',
@@ -90,7 +71,6 @@ class ComputersImportAdapter implements ComputersImportInterface
     public function getRams()
     {
         // return Cache::rememberForever('ram', function () {
-            // return collect($this->ram['data']);
             return [
                 '2GB',
                 '4GB',
@@ -106,7 +86,6 @@ class ComputersImportAdapter implements ComputersImportInterface
     public function getHdds()
     {
         // return Cache::rememberForever('hdd', function () {
-            // return collect($this->hdd['data']);
             return [
                 'SAS',
                 'SATA',
@@ -118,7 +97,7 @@ class ComputersImportAdapter implements ComputersImportInterface
     public function getLocations()
     {
         // return Cache::rememberForever('location', function () {
-            return collect($this->location['data'])->unique()->values();
+            return collect($this->locations)->unique()->values();
         // });
     }
 }

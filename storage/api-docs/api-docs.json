@@ -40,9 +40,18 @@
                         ]
                     },
                     {
-                        "name": "storage",
+                        "name": "min_storage",
                         "in": "query",
-                        "description": "Filter the storage size",
+                        "description": "Filters the minimum value for the storage field",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "1TB"
+                    },
+                    {
+                        "name": "max_storage",
+                        "in": "query",
+                        "description": "Filters the maximum value for the storage field",
                         "schema": {
                             "type": "string"
                         },
