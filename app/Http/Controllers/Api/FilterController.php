@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Services\FilterService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class FilterController extends Controller
 {
@@ -28,7 +29,12 @@ class FilterController extends Controller
      */
     public function getStorages()
     {
-        return $this->filterService->getStorages();
+        $data = $this->filterService->getStorages();
+        if(count($data) > 0) {
+            return response()->json($data, Response::HTTP_OK);
+        } else {
+            return response()->json([], Response::HTTP_NOT_FOUND);
+        }
     }
     
     /**
@@ -44,7 +50,12 @@ class FilterController extends Controller
      */
     public function getRams()
     {
-        return $this->filterService->getRams();
+        $data = $this->filterService->getRams();
+        if(count($data) > 0) {
+            return response()->json($data, Response::HTTP_OK);
+        } else {
+            return response()->json([], Response::HTTP_NOT_FOUND);
+        }
     }
     
     /**
@@ -60,7 +71,12 @@ class FilterController extends Controller
      */
     public function getHardDisks()
     {
-        return $this->filterService->getHardDisks();
+        $data = $this->filterService->getHardDisks();
+        if(count($data) > 0) {
+            return response()->json($data, Response::HTTP_OK);
+        } else {
+            return response()->json([], Response::HTTP_NOT_FOUND);
+        }
     }
     
     /**
@@ -76,7 +92,12 @@ class FilterController extends Controller
      */
     public function getLocations()
     {
-        return $this->filterService->getLocations();
+        $data = $this->filterService->getLocations();
+        if(count($data) > 0) {
+            return response()->json($data, Response::HTTP_OK);
+        } else {
+            return response()->json([], Response::HTTP_NOT_FOUND);
+        }
     }
     
 }
